@@ -19,8 +19,10 @@ if (!isset($_GET['token']) || $_GET['token'] !== TOKEN) {
 		fputs($file, $content . PHP_EOL);
 		if (file_exists(DIR.'.git') && is_dir(DIR)) {
 		        try{
-	        	        chdir(DIR);
-	                	shell_exec(GIT . ' pull');
+				$log = exec( 'cd '.DIR.' && '. GIT .' reset --hard HEAD && '.GIT.' pull  2>&1' );
+				fputs($file, $log."\n");
+	        	        //chdir(DIR);
+	                	//shell_exec(GIT . ' pull');
 	                	fputs($file, "*** AUTO PULL SUCCESFUL ***" . "\n");
 	        	}catch (Exception $e) {
 	                	fputs($file, $e . "\n");
